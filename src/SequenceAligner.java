@@ -171,11 +171,30 @@ public class SequenceAligner {
 	{
 		StringBuilder stringBuilderX = new StringBuilder();
 		StringBuilder stringBuilderY = new StringBuilder();
+
+		//set up the lower-right corner
 		Result endOfPath = cache[n][m];
 		tracebackHelper(endOfPath, stringBuilderX, stringBuilderY, n, m);
 
 	}
 
+	/**
+	 * this helper runs recursively to track back and align the strands via parent direction provided by result.
+	 * It works in the way:
+	 * 1. if result's parent is UP, we add '_' to X string and add current char of Y to Y string;
+	 * 2. if results parent is Left, we add '_' to Y string and add current char of X to X string;
+	 * 3. if parent is DIAGoNAL, add current char of X to X string and current char of Y to Y string;
+	 *
+	 * base condition of the recursion is when we reach cache[0][0].
+	 *
+	 * for every recursion, we need also first call markPath() on result; this ensure the end will be marked
+	 * then after making decision on direction, we need also call markPath().
+	 * @param result Result
+	 * @param stringBuilderX StringBuilder
+	 * @param stringBuilderY StringBuilder
+	 * @param xIndex int
+	 * @param yIndex int
+	 */
 	private void tracebackHelper(Result result, StringBuilder stringBuilderX, StringBuilder stringBuilderY, int xIndex, int yIndex)
 	{
 		result.markPath();
@@ -217,6 +236,14 @@ public class SequenceAligner {
 
 	}
 
+	/**
+	 * A simple abstraction of moving the result backward.
+	 * @param result Result
+	 * @param stringBuilderX StringBuilder
+	 * @param stringBuilderY StringBuilder
+	 * @param xIndex int
+	 * @param yIndex int
+	 */
 	private void keepGoing(Result result, StringBuilder stringBuilderX, StringBuilder stringBuilderY, int xIndex, int yIndex)
 	{
 		result = cache[xIndex][yIndex];
