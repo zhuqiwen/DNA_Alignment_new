@@ -3,7 +3,7 @@
  *
  * TODO: You are to implement the two score() methods.
  *
- * @author <put your name here>
+ * @author QIWEN ZHU
  */
 
 public class Judge {
