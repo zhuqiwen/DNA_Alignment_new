@@ -169,41 +169,57 @@ public class SequenceAligner {
 	 */
 	private void traceback()
 	{
-//		StringBuilder stringBuilderX = new StringBuilder();
-//		StringBuilder stringBuilderY = new StringBuilder();
-//		Result endOfPath = cache[n][m];
-//		tracebackHelper(endOfPath, stringBuilderX, stringBuilderY);
+		StringBuilder stringBuilderX = new StringBuilder();
+		StringBuilder stringBuilderY = new StringBuilder();
+		Result endOfPath = cache[n][m];
+		tracebackHelper(endOfPath, stringBuilderX, stringBuilderY, n, m);
 
 	}
 
-	private void tracebackHelper(Result result, StringBuilder stringBuilderX, StringBuilder stringBuilderY)
+	private void tracebackHelper(Result result, StringBuilder stringBuilderX, StringBuilder stringBuilderY, int xIndex, int yIndex)
 	{
-//		if(result.equals(cache[0][0]))
-//		{
-//			return;
-//		}
-//
-//		if(result.getParent().equals(Direction.UP))
-//		{
+		if(xIndex == 0 || yIndex == 0)
+		{
+			alignedX = stringBuilderX.reverse().toString();
+			alignedY = stringBuilderY.reverse().toString();
+			return;
+		}
+
+		int newXIndex = xIndex;
+		int newYIndex = yIndex;
+
+		if(result.getParent().equals(Direction.UP))
+		{
 //			stringBuilderX.append(Constants.GAP_CHAR);
-//			stringBuilderY.append(Y's current index');
-//			result = cache[][]
-//			tracebackHelper(result, stringBuilderX, stringBuilderY);
-//		}
-//		else if(result.getParent().equals(Direction.LEFT))
-//		{
-//			stringBuilderX.append(X's current index');
+//			stringBuilderY.append(y.charAt(yIndex - 1));
+
+			stringBuilderY.append(Constants.GAP_CHAR);
+			stringBuilderX.append(x.charAt(xIndex - 1));
+			newXIndex = xIndex - 1;
+			result = cache[newXIndex][newYIndex];
+			tracebackHelper(result, stringBuilderX, stringBuilderY, newXIndex, newYIndex );
+		}
+		else if(result.getParent().equals(Direction.LEFT))
+		{
+//			stringBuilderX.append(x.charAt(xIndex - 1));
 //			stringBuilderY.append(Constants.GAP_CHAR);
-//			result = cache[][]
-//			tracebackHelper(result, stringBuilderX, stringBuilderY);
-//		}
-//		else
-//		{
-//			stringBuilderX.append(X's current index);
-//			stringBuilderY.append(Y's current index');
-//			result = cache[][]
-//			tracebackHelper(result, stringBuilderX, stringBuilderY);
-//		}
+
+			stringBuilderY.append(y.charAt(yIndex - 1));
+			stringBuilderX.append(Constants.GAP_CHAR);
+			newYIndex = yIndex - 1;
+			result = cache[newXIndex][newYIndex];
+			tracebackHelper(result, stringBuilderX, stringBuilderY, newXIndex, newYIndex);
+		}
+		else
+		{
+			stringBuilderX.append(x.charAt(xIndex - 1));
+			stringBuilderY.append(y.charAt(yIndex - 1));
+
+			newXIndex = xIndex - 1;
+			newYIndex = yIndex - 1;
+			result = cache[newXIndex][newYIndex];
+			tracebackHelper(result, stringBuilderX, stringBuilderY, newXIndex, newYIndex);
+		}
 
 	}
 

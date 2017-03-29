@@ -242,7 +242,7 @@ public class Testing {
    * Testing SequenceAligner.traceback()
    **********************************************/
   
-  //@Test
+  @Test
   public void simpleAlignment() {
     SequenceAligner sa;
     sa = new SequenceAligner("ACGT", "ACGT");
