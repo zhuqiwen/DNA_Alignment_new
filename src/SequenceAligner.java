@@ -178,7 +178,8 @@ public class SequenceAligner {
 
 	private void tracebackHelper(Result result, StringBuilder stringBuilderX, StringBuilder stringBuilderY, int xIndex, int yIndex)
 	{
-		if(xIndex == 0 || yIndex == 0)
+		result.markPath();
+		if(xIndex == 0 && yIndex == 0)
 		{
 			alignedX = stringBuilderX.reverse().toString();
 			alignedY = stringBuilderY.reverse().toString();
@@ -190,37 +191,37 @@ public class SequenceAligner {
 
 		if(result.getParent().equals(Direction.UP))
 		{
-//			stringBuilderX.append(Constants.GAP_CHAR);
-//			stringBuilderY.append(y.charAt(yIndex - 1));
-
 			stringBuilderY.append(Constants.GAP_CHAR);
 			stringBuilderX.append(x.charAt(xIndex - 1));
 			newXIndex = xIndex - 1;
-			result = cache[newXIndex][newYIndex];
-			tracebackHelper(result, stringBuilderX, stringBuilderY, newXIndex, newYIndex );
+
+			keepGoing(result, stringBuilderX, stringBuilderY, newXIndex, newYIndex);
 		}
 		else if(result.getParent().equals(Direction.LEFT))
 		{
-//			stringBuilderX.append(x.charAt(xIndex - 1));
-//			stringBuilderY.append(Constants.GAP_CHAR);
-
 			stringBuilderY.append(y.charAt(yIndex - 1));
 			stringBuilderX.append(Constants.GAP_CHAR);
 			newYIndex = yIndex - 1;
-			result = cache[newXIndex][newYIndex];
-			tracebackHelper(result, stringBuilderX, stringBuilderY, newXIndex, newYIndex);
+
+			keepGoing(result, stringBuilderX, stringBuilderY, newXIndex, newYIndex);
 		}
 		else
 		{
 			stringBuilderX.append(x.charAt(xIndex - 1));
 			stringBuilderY.append(y.charAt(yIndex - 1));
-
 			newXIndex = xIndex - 1;
 			newYIndex = yIndex - 1;
-			result = cache[newXIndex][newYIndex];
-			tracebackHelper(result, stringBuilderX, stringBuilderY, newXIndex, newYIndex);
+
+			keepGoing(result, stringBuilderX, stringBuilderY, newXIndex, newYIndex);
 		}
 
+	}
+
+	private void keepGoing(Result result, StringBuilder stringBuilderX, StringBuilder stringBuilderY, int xIndex, int yIndex)
+	{
+		result = cache[xIndex][yIndex];
+		result.markPath();
+		tracebackHelper(result, stringBuilderX, stringBuilderY, xIndex, yIndex);
 	}
 
 	/**

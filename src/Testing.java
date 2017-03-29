@@ -296,7 +296,7 @@ public class Testing {
     assertEquals("AACCGG__", sa.getAlignedY());
   }
   
-  //@Test
+  @Test
   public void pathMarks() {
     SequenceAligner sa;
     sa = new SequenceAligner("AGACG", "CCGCT");
@@ -335,7 +335,7 @@ public class Testing {
    * Benchmarks
    **********************************************/
 
-  //@Test
+  @Test
   public void runBenchmarks() {
     System.out.println("Running Test Suite:\n");
     String filename = Constants.SUITE_FILENAME;
